@@ -14,6 +14,7 @@
 
 (* n�cessaire pour les versions >= 4.09 *)
 (**)
+#use "topfind";;
 #require "graphics" 
 ;;
  (**)
@@ -186,12 +187,12 @@ let read_pbm filename =
 	    img
 ;;
 
+
 (*********************************
      Exemples d'utilisation 
      des fonctions read_pbm
      et draw_pbm
 *********************************)
-
 let d = read_pbm "portrait.pbm"
 ;;			 
 
