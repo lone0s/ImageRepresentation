@@ -215,11 +215,6 @@ let rec is_puiss_2(n : int) : bool =
 		!resultat;
 ;;
 
-is_puiss_2(9)
-
-;;
-
-
 (**************)
 (* Question 2 *)
 (**************)
