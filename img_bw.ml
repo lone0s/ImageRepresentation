@@ -1,39 +1,28 @@
 (*******************************
        Projet AP3
 
-   Pr�nom : 
-   Nom :
-
+	GHITA Alessandro
+	
+	
+	
 ********************************)
 
 
-(*********************************
-  Mise en place de la biblioth�que
-  graphique			     
-********************************)
+(*************** Mise en place de la bibliothèque graphique ***************)
 
-(* n�cessaire pour les versions >= 4.09 *)
-(**)
+(* nécessaire pour les versions >= 4.09 *)
 #use "topfind";;
-#require "graphics" 
-;;
- (**)
+#require "graphics";;
+(****************************************)
 
-(* 
-   on charge la biblioth�que graphique dans l'interpr�teur
-*)
-#load "graphics.cma"
-;;
+(* On charge la bibliothèque graphique dans l'interpréteur
+		et on ouvre le module *)
+#load "graphics.cma";;
+open Graphics;;
 
-(*
-  On ouvre le module 
-*)
-open Graphics
-;;
 
-(*********************************
-        Les boucles			     
-********************************)
+
+(*************** Les boucles ***************)
 
 let rec forloop(r, n, next : 'a * int* ('a -> 'a)) : 'a =
   if n = 0 then r
@@ -45,10 +34,8 @@ let rec whileloop(r, cont, next : 'a * ('a -> bool) * ('a -> 'a)): 'a =
   else whileloop(next(r), cont, next)
 ;;
 
-(*********************************
-        Exemples d'utilisation 
-	des boucles			     
- ********************************
+(*************** Exemples d'utilisation des boucles ***************
+
 
 (forloop((1, 1),
          5,
@@ -96,10 +83,7 @@ square_root 2.
 ********************************)
 
 
-(*********************************
-        Les types pour 
-	les images			     
-*********************************)
+(*************** Les types pour les images ***************)
 
 type couleur = Noir | Blanc
 ;;
@@ -112,14 +96,9 @@ type arbre = Feuille of couleur
 ;;
 
 
-(*********************************
-        Les fonctions
-	draw_picture et read_pbm
-*********************************)
+(*************** Les fonctions draw_picture et read_pbm ***************)
 
-(*
-  Dessine une image donn�e comme un tableau de couleurs
-*)
+(* Dessine une image donnée comme un tableau de couleurs *)
 let draw_picture img = 
   let size = (Array.length img) in
     resize_window size size ;
@@ -143,9 +122,7 @@ let draw_picture img =
       )
 ;;
 
-(*
-  Lecture d'un fichier pbm au format ascii
-*)
+(* Lecture d'un fichier pbm au format ascii *)
 let read_pbm filename =
   let file = open_in filename in
   let magic = input_line file in
@@ -165,7 +142,7 @@ let read_pbm filename =
       in
 	if (size <> other_size) 
 	then
-	  failwith "ce n'est pas une image carr�e"
+	  failwith "ce n'est pas une image carrée"
 	else
 	  let img = Array.make_matrix size size Blanc in
 	    snd (
@@ -209,18 +186,39 @@ close_graph()
 ;;
 
 
-(*********************************
-       Mettez ici vos r�ponses 
-       aux questions et 
-       vos fonctions
-*********************************)
+(*************** Mettez ici vos réponses aux questions et fonctions ***************)
 
-(**************)
 (* Question 1 *)
-(**************)
-(*
-let is_puiss_2 n =
-*)
+
+let rec is_puiss_2(n : int) : bool =
+	if (n == 0)
+	then false
+	else
+		let nombre : int ref = ref n
+		and resultat : bool ref = ref true
+		and sortie : bool ref = ref false in
+		
+		while ((!nombre <> 1) && (!sortie = false))
+		do
+		(
+			let reste : int = !nombre mod 2 in
+			nombre := !nombre / 2;
+			
+			if (((reste) <> 0) && (!nombre <> 1))
+			then
+			(
+				resultat := false;
+				sortie := true;
+			)
+		)
+		done;
+		!resultat;
+;;
+
+is_puiss_2(9)
+
+;;
+
 
 (**************)
 (* Question 2 *)
