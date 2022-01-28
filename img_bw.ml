@@ -2,8 +2,8 @@
        Projet AP3
 
 	GHITA Alessandro
-	
-	
+        GELINAUD Clement
+	BENMOUSSATI Souhail
 	
 ********************************)
 
@@ -218,7 +218,7 @@ let rec is_puiss_2(n : int) : bool =
 (**************)
 (* Question 2 *)
 (**************)
-(*
+
 let img_test = [|
   [| Blanc; Noir; Blanc; Blanc |];
   [| Noir; Blanc; Blanc; Blanc |];
@@ -235,11 +235,21 @@ let img_test1 = [|
 |]
 ;;
 
-let arb_img_test =
+let arb_img_test = Noeud(
+                        Noeud(Feuille(Blanc), Feuille(Noir), Feuille(Noir), Feuille(Blanc)),
+                        Feuille(Blanc),
+                        Feuille(Noir),
+                        Noeud(Feuille(Blanc), Feuille(Noir), Feuille(Noir), Feuille(Blanc))
+                     );;
 
-let arb_img_test1 =
+let arb_img_test1 = Noeud(
+                        Feuille(Noir),
+                        Feuille(Blanc),
+                        Feuille(Noir),
+                        Feuille(Noir)
+                      );;
 
-*)
+
 
 (**************)
 (* Question 3 *)
