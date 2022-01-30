@@ -2,7 +2,7 @@
        Projet AP3
 
 	GHITA Alessandro
-        GELINAUD Clement
+	GELINAUD Clement
 	BENMOUSSATI Souhail
 	
 ********************************)
@@ -189,36 +189,18 @@ close_graph()
 (*************** Mettez ici vos réponses aux questions et fonctions ***************)
 
 (* Question 1 *)
-
 let rec is_puiss_2(n : int) : bool =
-	if (n == 0)
-	then false
-	else
-		let nombre : int ref = ref n
-		and resultat : bool ref = ref true
-		and sortie : bool ref = ref false in
-		
-		while ((!nombre <> 1) && (!sortie = false))
-		do
-		(
-			let reste : int = !nombre mod 2 in
-			nombre := !nombre / 2;
-			
-			if (((reste) <> 0) && (!nombre <> 1))
-			then
-			(
-				resultat := false;
-				sortie := true;
-			)
-		)
-		done;
-		!resultat;
+	match n with
+	| 0 -> false
+	| 1 -> true
+	| _ -> (
+		match (n mod 2) with
+		| 0 -> is_puiss_2(n / 2)
+		| _ -> false)
 ;;
 
-(**************)
-(* Question 2 *)
-(**************)
 
+(* Question 2 *)
 let img_test = [|
   [| Blanc; Noir; Blanc; Blanc |];
   [| Noir; Blanc; Blanc; Blanc |];
