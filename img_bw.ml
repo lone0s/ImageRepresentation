@@ -353,18 +353,18 @@ close_graph();;
 
 (* Question 6.2 *)
 
-let rec rotate arbre =
+let rec rotation arbre =
 	match arbre with
 	| Feuille _ -> arbre
 	| Noeud (noeud1, noeud2, noeud3, noeud4) ->
-    Noeud (rotate noeud3,rotate noeud1, rotate noeud4, rotate noeud2)
+    	Noeud (rotation noeud3, rotation noeud1, rotation noeud4, rotation noeud2)
 ;;
 
 (* Exemples d'utilisation de la fonction rotation *)
 open_graph "";;
 draw_tree(arb_img_test, 500);;
 clear_graph ();;
-draw_tree(rotate arb_img_test, 500);;
+draw_tree(rotation arb_img_test, 500);;
 close_graph();;
 
 
@@ -372,6 +372,32 @@ close_graph();;
 (*
 let fractale k n =
 *)
+let rec rotation_gauche arbre =
+	match arbre with
+	| Feuille _ -> arbre
+	| Noeud (noeud1, noeud2, noeud3, noeud4) ->
+    	Noeud (rotation_gauche noeud2, rotation_gauche noeud4, rotation_gauche noeud1, rotation_gauche noeud3)
+;;
+
+let rec fractale(taille, nombre_iteration : int * int) : arbre =
+  if nombre_iteration <= 0
+  then Feuille Noir
+  else
+    let c = fractale (taille, nombre_iteration - 1) in
+    let c1 = Noeud (c, c, c, Feuille Blanc) in
+    let c3 = rotation_gauche c1 in
+    let c4 = rotation_gauche c3 in
+    let c2 = rotation_gauche c4 in
+    Noeud (c1, c2, c3, c4)
+;;
+
+open_graph "";;
+(* ne pas dépasser les 4 itérations *)
+draw_tree(fractale(512, 3), 512);;
+clear_graph ();;
+close_graph();;
+
+
 (* 
 Exemples d'utilisation 
 de la fonction fractale
