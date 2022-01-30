@@ -251,9 +251,23 @@ let random_img(taille, nombrePixelNoir : int * int) : picture =
     		(0, image),
     		nombrePixelNoir,
     		(function (i, image) ->
-    			let randomX = Random.int(taille) and randomY = Random.int(taille) in
-    				image.(randomX).(randomY) <- Noir;
-    				(i + 1, image);
+    		
+    			let randomX : int ref = ref 0 and
+    					randomY : int ref = ref 0 and
+    					stop : bool ref = ref false in
+
+    			while not(!stop) do
+    			(
+    				randomX := Random.int(taille);
+    				randomY := Random.int(taille);
+    				
+						if image.(!randomX).(!randomY) <> Noir
+						then stop := true;
+					)
+					done;
+
+    			image.(!randomX).(!randomY) <- Noir;
+    			(i + 1, image);
     		)
 			)
       in imageFinal
