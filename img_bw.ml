@@ -342,33 +342,33 @@ let draw_tree(imageArbre, taille :  arbre * int) : unit =
 
 open_graph "";;
 draw_tree(arb_img_test, 500);;
+clear_graph ();;
 close_graph();;
 
-(****************)
+
 (* Question 6.1 *)
-(****************)
 
-(*
-Exemples d'agrandissement d'images
+(* Exemples d'agrandissement d'images *)
 
-*)
 
-(****************)
 (* Question 6.2 *)
-(****************)
 
-(*
-let rotation arb = 
-*)
-(* 
-Exemples d'utilisation 
-de la fonction rotation
+let rec rotate arbre =
+	match arbre with
+	| Feuille _ -> arbre
+	| Noeud (noeud1, noeud2, noeud3, noeud4) ->
+    Noeud (rotate noeud3,rotate noeud1, rotate noeud4, rotate noeud2)
+;;
 
-*)
+(* Exemples d'utilisation de la fonction rotation *)
+open_graph "";;
+draw_tree(arb_img_test, 500);;
+clear_graph ();;
+draw_tree(rotate arb_img_test, 500);;
+close_graph();;
 
-(**************)
+
 (* Question 7 *)
-(**************)
 (*
 let fractale k n =
 *)
