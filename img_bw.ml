@@ -310,6 +310,26 @@ de la fonction draw_tree
 
 *)
 
+let rec dessine i j k = function
+  | Feuille Noir -> Graphics.fill_rect i j k k
+  | Feuille Blanc -> ()
+  | Noeud (c1, c2, c3, c4) ->
+      let k2 = k/2 in
+      do_dessine i (j+k2) k2 c1;
+      do_dessine (i+k2) (j+k2) k2 c2;
+      do_dessine i j k2 c3;
+      do_dessine (i+k2) j k2 c4
+;;
+
+let draw_tree(imageArbre, taille :  arbre * int) : unit =
+	resize_window taille taille ;
+	dessine 0 0 taille imageArbre;
+;;
+
+open_graph "";;
+draw_tree(arb_img_test, 500);;
+close_graph();;
+
 (****************)
 (* Question 6.1 *)
 (****************)
