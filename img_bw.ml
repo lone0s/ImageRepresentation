@@ -233,18 +233,37 @@ let arb_img_test1 = Noeud(
                       );;
 
 
-
 (**************)
 (* Question 3 *)
 (**************)
-(*
-let random_img t n =
-*)
-(* 
-Exemples d'utilisation 
-de la fonction random_img
 
-*)
+let random_img(taille, nombrePixelNoir : int * int) : picture =
+	if not(is_puiss_2(taille))
+  then failwith ("ERROR random_img : The size must be a power of 2")
+  else
+    if nombrePixelNoir > (taille * taille)
+    then failwith("ERROR random_img : Number of pixels is too large")
+    else
+    	let image : picture = Array.make_matrix taille taille Blanc in
+    	
+    	let (compteur, imageFinal) : int * picture =
+    	forloop(
+    		(0, image),
+    		nombrePixelNoir,
+    		(function (i, image) ->
+    			let randomX = Random.int(taille) and randomY = Random.int(taille) in
+    				image.(randomX).(randomY) <- Noir;
+    				(i + 1, image);
+    		)
+			)
+      in imageFinal
+;;
+
+open_graph "";;
+draw_picture(random_img(512, 512 * 512));;
+draw_picture(random_img(512, 1000));;
+close_graph();;
+
 
 (****************)
 (* Question 4.1*)
