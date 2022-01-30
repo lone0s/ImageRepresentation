@@ -196,7 +196,8 @@ let rec is_puiss_2(n : int) : bool =
 	| _ -> (
 		match (n mod 2) with
 		| 0 -> is_puiss_2(n / 2)
-		| _ -> false)
+		| _ -> false
+	)
 ;;
 
 
