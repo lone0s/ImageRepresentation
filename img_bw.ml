@@ -398,11 +398,24 @@ close_graph();;
 (*
 let arbre_vers_bits arb =
 *)
-(* 
-Exemples d'utilisation 
-de la fonction arbre_vers_bits
-*)
 
+type bit = Zero | Un;;
+
+let rec arbre_vers_liste imageArbre liste =
+	match imageArbre with
+	| Feuille Blanc -> Zero :: Zero :: liste
+	| Feuille Noir -> Zero :: Un :: liste
+	| Noeud (sous_arbre_1, sous_arbre_2, sous_arbre_3, sous_arbre_4) ->
+		Un :: arbre_vers_liste sous_arbre_1
+			(arbre_vers_liste sous_arbre_2
+				(arbre_vers_liste sous_arbre_3
+					(arbre_vers_liste sous_arbre_4 liste)))
+;;
+
+let arbre_vers_bits arb = arbre_vers_liste arb [];;
+
+(* Exemples d'utilisation de la fonction arbre_vers_bits *)
+arbre_vers_bits arb_img_test;;
 
 
 (* Question 8.2 *)
