@@ -312,17 +312,7 @@ de la fonction arbre_vers_image
 
 *)
 
-(**************)
 (* Question 5 *)
-(**************)
-(*
-let draw_tree k arb =
-*)
-(* 
-Exemples d'utilisation 
-de la fonction draw_tree
-
-*)
 
 let rec dessine i j k = function
   | Feuille Noir -> Graphics.fill_rect i j k k
@@ -362,16 +352,18 @@ let rec rotation arbre =
 
 (* Exemples d'utilisation de la fonction rotation *)
 open_graph "";;
+
 draw_tree(arb_img_test, 500);;
+
 clear_graph ();;
+
 draw_tree(rotation arb_img_test, 500);;
+
 close_graph();;
 
 
 (* Question 7 *)
-(*
-let fractale k n =
-*)
+
 let rec rotation_gauche arbre =
 	match arbre with
 	| Feuille _ -> arbre
