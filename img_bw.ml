@@ -401,12 +401,11 @@ let arbre_vers_bits arb =
 (* 
 Exemples d'utilisation 
 de la fonction arbre_vers_bits
-
 *)
 
-(****************)
+
+
 (* Question 8.2 *)
-(****************)
 (*
 let bits_vers_octets lb =
 *)
@@ -416,9 +415,9 @@ de la fonction bits_vers_octets
 
 *)
 
-(****************)
+
 (* Question 8.3 *)
-(****************)
+
 (*
 let bits_vers_arbres lb =
 *)
@@ -441,9 +440,9 @@ de la fonction octet_vers_bits
 
 *)
 
-(****************)
+
 (* Question 8.4 *)
-(****************)
+
 (*
  let write_arbre filename arb =
 *)
