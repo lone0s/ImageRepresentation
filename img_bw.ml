@@ -391,22 +391,18 @@ let rec fractale(taille, nombre_iteration : int * int) : arbre =
     Noeud (c1, c2, c3, c4)
 ;;
 
-open_graph "";;
+(* Exemples d'utilisation de la fonction fractale *)
 (* ne pas dépasser les 4 itérations *)
+open_graph "";;
+
 draw_tree(fractale(512, 3), 512);;
+
 clear_graph ();;
 close_graph();;
 
 
-(* 
-Exemples d'utilisation 
-de la fonction fractale
-
-*)
-
-(****************)
 (* Question 8.1 *)
-(****************)
+
 (*
 let arbre_vers_bits arb =
 *)
