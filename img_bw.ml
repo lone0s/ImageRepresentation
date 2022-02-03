@@ -507,7 +507,7 @@ let rec bits_vers_octets lb =
 (* On récupère un arbre sous forme de liste de bits *)
 let arbre_bits = arbre_vers_bits arb_img_test;;
 (* On applique bits_vers_octets() *)
-bits_vers_octets(arbre_bits);;
+let arbre_octet = bits_vers_octets(arbre_bits);;
 
 
 (* Question 8.3 *)
@@ -517,7 +517,7 @@ let entier_vers_Liste_Bit i =
 
 	let rec int_to_bit acc i =
 	
-		if i=0
+		if i = 0
 		then acc
     else int_to_bit (i land 1::acc) (i lsr 1)
     
@@ -541,41 +541,98 @@ let tableau_vers_liste(tableau : 'a array) : 'a list =
 	!liste;
 ;;
 
-entier_vers_Liste_Bit 16;;
-tableau_vers_liste(entier_vers_Liste_Bit 16);;
+(* Convertie une int list en bit list *)
+let rec int_list_vers_bit_list(liste : int list) : bit list =
+	match liste with
+	| [] -> []
+	| 0 :: element -> Zero :: int_list_vers_bit_list(List.tl(liste))
+	| 1 :: element -> Un :: int_list_vers_bit_list(List.tl(liste))
+	| _ -> failwith("Erreur int_list_vers_bit_list() : la liste n'est pas une liste de bits")
+;;
 
+(* Chaîne de bits en octet complet (sous forme de bits => ajoute des 0 si nécessaire *)
+let octet(liste : int list) : int list =
+	let resultat : int list ref = ref liste and
+	longueur : int = List.length(liste) in
 
-let octet_vers_bits lo =
+	if longueur >= 8
+	then liste
+	else
+	(
+		for indice = longueur to 7
+		do resultat := [0] @ ! resultat;
+		done;
+		!resultat;
+	)
+;;
+
+let rec liste_octet_vers_liste_nombre(liste_octet : int list) : bit list =
+	if liste_octet = []
+	then []
+	else
+		let liste : int list ref = ref (tableau_vers_liste(entier_vers_Liste_Bit (List.hd(liste_octet)))) in
+		
+		let longueur : int = List.length(!liste) in
+		
+		if longueur <> 1
+		then liste := octet(!liste);
 	
+		int_list_vers_bit_list(!liste) @ liste_octet_vers_liste_nombre(List.tl(liste_octet))
+;;
+
+let octet_vers_bit lo =
+	liste_octet_vers_liste_nombre(lo)
+;;
+
+(* Exemples d'utilisation de la fonction octet_vers_bits *)
+
+(* On rappelle les variables *)
+arbre_octet;;
+arbre_bits;;
+(* On vérifie que l'on obtient bien le même résultat que arbre_bits *)
+octet(tableau_vers_liste(entier_vers_Liste_Bit 6));;
+octet_vers_bit arbre_octet;;
+let test_arbre_octet_vers_bit = ((octet_vers_bit arbre_octet) = arbre_bits);;
 
 
-
-
-
-
-
-
-
-
-(* 
-Exemples d'utilisation 
-de la fonction octet_vers_bits
-
-*)
-
-
-
-
-
-
-
+let bits_vers_arbres lb =
+;;
 
 
 
 
 (*
-let bits_vers_arbres lb =
+   La mission de do_parse l est
+   * Si l est de la forme la @ rem où la représente un arbre a,
+     alors renvoie la paire a,rem.
+
+   * Sinon, fais ce que dois, advienne que pourra
+     (cf. assert false, devise de Du Guesclin)
 *)
+
+let rec do_parse l =
+	match l with
+	| Zero :: Zero :: rem -> Feuille Blanc, rem
+	| Zero :: Un :: rem -> Feuille Noir, rem
+	| Un :: rem ->
+    let a1,rem = do_parse rem in
+    let a2,rem = do_parse rem in
+    let a3,rem = do_parse rem in
+    let a4,rem = do_parse rem in
+    Noeud (a1,a2,a3,a4),rem
+	| _ -> failwith("Erreur")
+;;
+
+let liste_vers_arbre l = let a,_ = do_parse l in a
+;;
+
+arbre_octet;;
+octet_vers_bit arbre_octet;;
+liste_vers_arbre (octet_vers_bit arbre_octet);;
+
+
+
+
 (* 
 Exemples d'utilisation 
 de la fonction bits_vers_arbres
