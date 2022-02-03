@@ -395,10 +395,6 @@ close_graph();;
 
 (* Question 8.1 *)
 
-(*
-let arbre_vers_bits arb =
-*)
-
 type bit = Zero | Un;;
 
 let rec arbre_vers_liste imageArbre liste =
@@ -419,17 +415,163 @@ arbre_vers_bits arb_img_test;;
 
 
 (* Question 8.2 *)
-(*
-let bits_vers_octets lb =
-*)
-(* 
-Exemples d'utilisation 
-de la fonction bits_vers_octets
 
-*)
+(*********************************** Fonctions auxiliaires ***********************************)
+let rec recuperation_n_element_liste(liste, compteur : 'a list * int) : 'a list =
+	if compteur > List.length(liste)
+	then failwith("Erreur recuperation_n_element_liste() : le compteur est supérieur à la longueur de la liste.")
+	else
+		if compteur <= 0
+		then []
+		else List.hd(liste) :: recuperation_n_element_liste(List.tl(liste), compteur - 1)
+;;
+
+let rec supprimer_n_elemment_liste(liste, compteur : 'a list * int) : 'a list =
+	if compteur > List.length(liste)
+	then failwith("Erreur supprimer_n_elemment_liste() : le compteur est supérieur à la longueur de la liste.")
+	else
+		if compteur <= 0
+		then liste
+		else supprimer_n_elemment_liste(List.tl(liste), compteur - 1)
+;;
+
+let rec puissance(nombre, valeurPuissance : int * int) : int =
+	match valeurPuissance with
+	| 0 -> 1
+	| valeurPuissance -> nombre * (puissance(nombre, valeurPuissance - 1))
+;;
+
+(* Utilisée pour le débuggage *)
+let affichage_bit(char : bit) : string =
+	match char with
+	| Zero -> "Zero"
+	| Un -> "Un"
+;;
+
+(*********************************************************************************************)
+
+(****************************** Tests des fonctions auxiliaires ******************************)
+let liste_test = [1;2;3;4;5];;
+
+recuperation_n_element_liste(liste_test, 0);;
+recuperation_n_element_liste(liste_test, 1);;
+recuperation_n_element_liste(liste_test, 3);;
+recuperation_n_element_liste(liste_test, 5);;
+recuperation_n_element_liste(liste_test, 6);;
+
+supprimer_n_elemment_liste(liste_test, 0);;
+supprimer_n_elemment_liste(liste_test, 1);;
+supprimer_n_elemment_liste(liste_test, 3);;
+supprimer_n_elemment_liste(liste_test, 5);;
+supprimer_n_elemment_liste(liste_test, 6);;
+
+puissance(2, 0);;
+puissance(2, 1);;
+puissance(2, 2);;
+puissance(2, 5);;
+
+affichage_bit(Un);;
+affichage_bit(Zero);;
+(***************************************************)
+
+let rec bits_vers_octets lb =
+	if lb = []
+	then []
+	else
+		let longueur_liste : int = List.length(lb) in
+		
+		if longueur_liste > 8
+		then bits_vers_octets(recuperation_n_element_liste(lb, 8)) @
+					bits_vers_octets(supprimer_n_elemment_liste(lb, 8))
+		else
+		(
+			let nombre : int ref = ref 0 and
+					liste : bit list ref = ref lb in
+					
+			for indice = (longueur_liste - 1) downto 0
+			do
+			(
+				if List.hd(!liste) = Un
+				then nombre := !nombre + puissance(2, indice);
+				liste := List.tl(!liste);
+			)
+			done;
+		
+			[!nombre];
+		
+		)
+;;
+
+(* Exemples d'utilisation de la fonction bits_vers_octets *)
+
+(* On récupère un arbre sous forme de liste de bits *)
+let arbre_bits = arbre_vers_bits arb_img_test;;
+(* On applique bits_vers_octets() *)
+bits_vers_octets(arbre_bits);;
 
 
 (* Question 8.3 *)
+
+(* Converti un nombre en tableau de bits *)
+let entier_vers_Liste_Bit i =
+
+	let rec int_to_bit acc i =
+	
+		if i=0
+		then acc
+    else int_to_bit (i land 1::acc) (i lsr 1)
+    
+  in
+  let l = int_to_bit [] i in
+  Array.of_list  l
+;;
+
+(* Convertie un tableau en 1 dimension en liste *)
+let tableau_vers_liste(tableau : 'a array) : 'a list =
+
+	let liste : 'a list ref = ref [] in
+
+	for indice = 0 to Array.length(tableau) - 1
+	do
+	(
+		liste := !liste @ [(Array.get tableau indice)];
+	)
+	done;
+	
+	!liste;
+;;
+
+entier_vers_Liste_Bit 16;;
+tableau_vers_liste(entier_vers_Liste_Bit 16);;
+
+
+let octet_vers_bits lo =
+	
+
+
+
+
+
+
+
+
+
+
+(* 
+Exemples d'utilisation 
+de la fonction octet_vers_bits
+
+*)
+
+
+
+
+
+
+
+
+
+
 
 (*
 let bits_vers_arbres lb =
@@ -444,14 +586,7 @@ Explications sur la gestion
 des erreurs de la fonction bits_vers_arbres
 *)
 
-(*
-let octet_vers_bits lo =
-*)
-(* 
-Exemples d'utilisation 
-de la fonction octet_vers_bits
 
-*)
 
 
 (* Question 8.4 *)
