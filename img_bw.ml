@@ -279,38 +279,87 @@ draw_picture(random_img(512, 1000));;
 close_graph();;
 
 
-(****************)
-(* Question 4.1*)
-(****************)
-(*
-let image_vers_arbre k img =
-*)
-(* 
-Exemples d'utilisation 
-de la fonction image_vers_arbre
+(* Question 4.1 *)
 
-*)
-
-(****************)
-(* Question 4.2 *)
-(****************)
-(*
-let remplir_carre img i j k c =
-*)
-(* 
-Exemples d'utilisation 
-de la fonction remplir_carre
-
-*)
-
-(*
 let arbre_vers_image k arb =
-*)
-(* 
-Exemples d'utilisation 
-de la fonction arbre_vers_image
+	let imgResult = Array.make_matrix k k Blanc in
+	let rec arbre_vers_image_aux img x y k arb_aux =
+		match arb_aux with
+		|Feuille (leafColor) -> remplir_carre imgResult  x y k leafColor
+		|Noeud(c1,c2,c3,c4) ->
+		let k2 : int =(k/2)
+		in
+			(
+				arbre_vers_image_aux img x (y+k2) k2 c2 ;
+				arbre_vers_image_aux img (x+k2) (y+k2) k2 c1 ;
+				arbre_vers_image_aux img x y k2 c4;
+				arbre_vers_image_aux img (x+k2) y k2 c2;
+			)
+			in (
+			arbre_vers_image_aux imgResult 0 0 k arb);
+			imgResult;
+			;;
+(* Possibilité de casser la fonction parce que pas de condition d'arret explicitée *)
 
-*)
+
+(* Exemples d'utilisation de la fonction remplir_carre *)
+arbre_vers_image 4 arb_img_test1;;
+arbre_vers_image 4 arb_img_test;;
+
+(* -- Fin Exemples Remplir Carre-- *)
+
+(* Pour une raison qui m'échappe, ordre de parcours est inversé si je met C1/C2/C3/C4 dans le bon ordre*)
+(* A revoir *)
+let image_vers_arbre k img =
+  let rec img_vers_arb_aux x y k=
+    if k <= 1 then
+      Feuille img.(x).(y)
+    else
+      let k2 = k/2 in
+      let c2 = img_vers_arb_aux x (y+k2) k2
+      and c1 = img_vers_arb_aux (x+k2) (y+k2) k2
+      and c4 = img_vers_arb_aux x y k2
+      and c3 = img_vers_arb_aux (x+k2) y k2
+      in
+      match c1, c2, c3, c4 with
+        | Feuille f1, Feuille f2, Feuille f3, Feuille f4
+          when f1 == f2 && f2 == f3 && f3 == f4 -> c1
+        | _,_,_,_ -> Noeud(c1, c2, c3, c4)
+    in
+  img_vers_arb_aux 0 0 ;;
+
+	image_vers_arbre 4 img_test1;;
+
+
+(* Question 4.2 *)
+
+let remplir_carre img i j k c =
+
+	for x = 0 to (k-1)
+	do
+		for y = 0 to (k-1)
+		do
+			img.(x+i).(y+j) <- c ;
+		done ;
+		done ;
+		img
+		;;
+(* Exemples d'utilisation de la fonction remplir_carre *)
+let carre_noir = [|
+    [| Noir; Noir; Noir; Noir|];
+	[| Noir; Noir; Noir; Noir|];
+	[| Noir; Noir; Noir; Noir|];
+	[| Noir; Noir; Noir; Noir|];
+|]
+;;
+remplir_carre carre_noir 2 0 2 Blanc;;
+remplir_carre carre_noir 1 0 1 Noir;;
+
+let carre_noir_2 = Array.make_matrix 4 4 Noir ;;
+remplir_carre carre_noir_2 2 0 1 Blanc;;
+
+(* -- Fin Exemples Remplir Carre-- *)
+
 
 (* Question 5 *)
 
@@ -501,7 +550,7 @@ let rec bits_vers_octets lb =
 		
 		)
 ;;
-
+#trace bits_vers_octets;;
 (* Exemples d'utilisation de la fonction bits_vers_octets *)
 
 (* On récupère un arbre sous forme de liste de bits *)
